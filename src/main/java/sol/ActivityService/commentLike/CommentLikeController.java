@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sol.ActivityService.commentLike.dto.CommentLikeDto;
-import sol.ActivityService.dummy.User;
 import sol.ActivityService.external.UserClient;
 import sol.ActivityService.external.dto.TokenDto;
 import sol.ActivityService.util.ResponseDto;

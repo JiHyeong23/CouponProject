@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import sol.ActivityService.external.UserClient;
 import sol.ActivityService.external.dto.TokenDto;
 import sol.ActivityService.postLike.dto.PostLikeDto;
-import sol.ActivityService.dummy.User;
 import sol.ActivityService.util.ResponseDto;
 import sol.ActivityService.util.UtilMethods;
 

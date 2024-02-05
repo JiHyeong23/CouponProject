@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import sol.ActivityService.external.NewsFeedClient;
 import sol.ActivityService.external.dto.UserNewsDto;
 import sol.ActivityService.post.dto.PostCreationDto;
-import sol.ActivityService.dummy.User;
 import sol.ActivityService.util.ResponseDto;
 import sol.ActivityService.util.UtilMethods;
 

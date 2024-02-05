@@ -5,14 +5,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import sol.ActivityService.comment.Comment;
 import sol.ActivityService.comment.CommentRepository;
-import sol.ActivityService.external.dto.UserNewsDto;
 import sol.ActivityService.follow.FollowRepository;
 import sol.ActivityService.post.Post;
 import sol.ActivityService.post.PostRepository;
-import sol.ActivityService.dummy.User;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Component
 @AllArgsConstructor

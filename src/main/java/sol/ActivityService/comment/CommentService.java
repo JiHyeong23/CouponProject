@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import sol.ActivityService.comment.dto.CommentCreationDto;
 import sol.ActivityService.post.Post;
-import sol.ActivityService.dummy.User;
 import sol.ActivityService.util.ResponseDto;
 import sol.ActivityService.util.UtilMethods;
 

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sol.ActivityService.post.Post;
-import sol.ActivityService.dummy.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

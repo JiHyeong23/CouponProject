@@ -28,9 +28,10 @@ public class PostService {
                 .contentedBy(post.getUserId())
                 .createdAt(post.getCreatedAt())
                 .build();
+
         Long activityId = newsFeedClient.saveActivity(userNewsDto);
         if (activityId == null) {
-            return utilMethods.makeFailResponseDto("Failed saved", activityId);
+            return utilMethods.makeFailResponseDto("Failed saved", null);
         }
         return utilMethods.makeSuccessResponseDto("Successfully saved", post.getTitle());
     }

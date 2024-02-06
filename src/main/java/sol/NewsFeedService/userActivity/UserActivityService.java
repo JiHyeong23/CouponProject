@@ -2,15 +2,19 @@ package sol.NewsFeedService.userActivity;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import sol.NewsFeedService.userActivity.dto.GetUserNewsDto;
 import sol.NewsFeedService.userActivity.dto.UserNewsDto;
+import sol.NewsFeedService.util.ResponseDto;
 import sol.NewsFeedService.util.UtilMethods;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class UserActivityService {
     private UtilMethods utilMethods;
     private UserActivityRepository userActivityRepository;
-    private UserActivityMapper userActivityMapper;
 
     public Long saveActivity(UserNewsDto userNewsDto) {
         UserActivity activity = UserActivity.builder()
@@ -23,23 +27,34 @@ public class UserActivityService {
         return activity.getId();
     }
 
-//    public ResponseDto getNews(Long userId) {
-//        List<User> following = utilMethods.getFollowing(user);
-//        List<UserActivity> activities = userActivityRepository.findTop10ByUserInOrderByCreatedAtDesc(following);
-//        List<UserNewsDto> newsFeed = new ArrayList<>();
-//        for (UserActivity activityType : activities) {
-//            if (activityType.getContentedBy() == user) {
-//                newsFeed.add(new UserNewsDto(
-//                        activityType.getUser().getName(), activityType.getActivityType().toString(), activityType.getActivityId(), activityType.getCreatedAt(),
-//                        user.getName(), "My")
-//                );
-//            } else {
-//                newsFeed.add(new UserNewsDto(
-//                        activityType.getUser().getName(), activityType.getActivityType().toString(), activityType.getActivityId(), activityType.getCreatedAt(),
-//                        activityType.getContentedBy().getName(), "Follower")
-//                );
-//            }
-//        }
-//        return utilMethods.makeSuccessResponseDto("Successfully loads", newsFeed);
-//    }
+    public ResponseDto getNews(List<Long> following) {
+        for (Long follow : following) {
+            System.out.println(follow);
+        }
+        List<UserActivity> activities = userActivityRepository.findTop10ByUserIdInOrderByCreatedAtDesc(following);
+        System.out.println(activities);
+        List<GetUserNewsDto> newsFeed = new ArrayList<>();
+        for (UserActivity activity : activities) {
+            if (activity.getContentedBy().equals(activity.getUserId())) {
+                newsFeed.add(GetUserNewsDto.builder()
+                        .userId(activity.getUserId())
+                        .contentType(activity.getActivityType())
+                        .contentId(activity.getContentId())
+                        .contentedBy(activity.getContentedBy())
+                        .createdAt(activity.getCreatedAt())
+                        .type("My").build()
+                );
+            } else {
+                newsFeed.add(GetUserNewsDto.builder()
+                        .userId(activity.getUserId())
+                        .contentType(activity.getActivityType())
+                        .contentId(activity.getContentId())
+                        .contentedBy(activity.getContentedBy())
+                        .createdAt(activity.getCreatedAt())
+                        .type("Follower").build()
+                );
+            }
+        }
+        return utilMethods.makeSuccessResponseDto("Successfully loads", newsFeed);
+    }
 }

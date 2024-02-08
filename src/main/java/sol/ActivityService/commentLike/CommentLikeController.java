@@ -24,7 +24,7 @@ public class CommentLikeController {
     private UserClient userClient;
     @PostMapping
     public ResponseEntity commentLike(@RequestBody CommentLikeDto commentLikeDto, HttpServletRequest request) {
-        Long userId = userClient.getUser(TokenDto.builder().token(utilMethods.getToken(request)).build());
+        Long userId = Long.valueOf(request.getHeader("Authorization-Id"));
         ResponseDto responseDto = commentLikeService.saveCommentLike(commentLikeDto, userId);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }

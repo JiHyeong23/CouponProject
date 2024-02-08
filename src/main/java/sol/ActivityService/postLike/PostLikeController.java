@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sol.ActivityService.external.UserClient;
-import sol.ActivityService.external.dto.TokenDto;
 import sol.ActivityService.postLike.dto.PostLikeDto;
 import sol.ActivityService.util.ResponseDto;
 import sol.ActivityService.util.UtilMethods;
@@ -25,8 +24,8 @@ public class PostLikeController {
 
     @PostMapping
     public ResponseEntity likePost(@RequestBody PostLikeDto postLikeDto, HttpServletRequest request) {
-        Long user = userClient.getUser(TokenDto.builder().token(utilMethods.getToken(request)).build());
-        ResponseDto responseDto = postLikeService.savePostLike(postLikeDto, user);
+        Long userId = Long.valueOf(request.getHeader("Authorization-Id"));
+        ResponseDto responseDto = postLikeService.savePostLike(postLikeDto, userId);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 }

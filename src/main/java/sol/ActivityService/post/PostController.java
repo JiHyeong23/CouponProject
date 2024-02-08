@@ -22,11 +22,9 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity createPost(@RequestBody PostCreationDto postCreationDto, HttpServletRequest request) {
-        String token = utilMethods.getToken(request);
-        Long userId = userClient.getUser(TokenDto.builder().token(token).build());
+        Long userId = Long.valueOf(request.getHeader("Authorization-Id"));
         ResponseDto responseDto = postService.savePost(postCreationDto, userId);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
-
 
 }

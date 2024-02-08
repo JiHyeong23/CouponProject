@@ -18,14 +18,14 @@ public class FollowService {
     private FollowRepository followRepository;
     private NewsFeedClient newsFeedClient;
 
-    public ResponseDto saveFollow(ResponseFollowDto followDto) {
-        Follow find = followRepository.findByFollowerIdAndFollowingId(followDto.getFollowerId(), followDto.getFollowingId());
+    public ResponseDto saveFollow(Long followerId, Long followingId) {
+        Follow find = followRepository.findByFollowerIdAndFollowingId(followerId, followingId);
         if (find != null) {
             return utilMethods.makeFailResponseDto("이미 팔로우하고 있는 유저입니다", find.getId());
         }
         Follow follow = Follow.builder()
-                .followerId(followDto.getFollowerId())
-                .followingId(followDto.getFollowingId())
+                .followerId(followerId)
+                .followingId(followingId)
                 .build();
 
         followRepository.save(follow);
@@ -35,6 +35,7 @@ public class FollowService {
                 .contentType("FOLLOW")
                 .contentId(follow.getId())
                 .contentedBy(follow.getFollowerId())
+                .createdAt(follow.getCreatedAt())
                 .build();
 
         newsFeedClient.saveActivity(userNewsDto);

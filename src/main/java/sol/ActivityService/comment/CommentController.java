@@ -25,8 +25,8 @@ public class CommentController {
     private UserClient userClient;
     @PostMapping
     public ResponseEntity createComment(@RequestBody CommentCreationDto commentCreationDto, HttpServletRequest request) {
-        Long user = userClient.getUser(TokenDto.builder().token(utilMethods.getToken(request)).build());
-        ResponseDto responseDto = commentService.saveComment(commentCreationDto, user);
+        Long userId = Long.valueOf(request.getHeader("Authorization-Id"));
+        ResponseDto responseDto = commentService.saveComment(commentCreationDto, userId);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 }

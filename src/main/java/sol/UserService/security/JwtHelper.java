@@ -19,7 +19,7 @@ public class JwtHelper {
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
     private Environment env;
 
-    public String getEmailFromJwtToken(String token) {
+    public String getIdFromJwtToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(env.getProperty("jwt.key.secret")));
         return Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -41,6 +41,7 @@ public class JwtHelper {
     }
 
     public ResponseToken createToken(String username) {
+        //username = DB index
         Map<String, String> map = new HashMap<>();
         map.put("type", "access");
         map.put("name", username);

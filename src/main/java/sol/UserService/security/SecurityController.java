@@ -21,7 +21,7 @@ public class SecurityController {
         ResponseToken responseToken = null;
 
         if(jwtHelper.validateJwtToken(refreshToken)) {
-            String username = jwtHelper.getEmailFromJwtToken(refreshToken);
+            String username = jwtHelper.getIdFromJwtToken(refreshToken);
             responseToken = jwtHelper.createToken(username);
         }
         return ResponseEntity.ok(responseToken);

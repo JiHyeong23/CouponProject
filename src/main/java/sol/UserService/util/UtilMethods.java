@@ -19,8 +19,8 @@ public class UtilMethods {
     public User parseTokenForUser(HttpServletRequest request) {
         try {
             String token = request.getHeader("Authorization").substring(7);
-            String email = jwtHelper.getEmailFromJwtToken(token);
-            return userRepository.findByEmail(email);
+            String id = jwtHelper.getIdFromJwtToken(token);
+            return userRepository.findById(Long.valueOf(id)).get();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "토큰이 없습니다");
         }
@@ -28,8 +28,8 @@ public class UtilMethods {
 
     public User parseTokenForUser(String token) {
         try {
-            String email = jwtHelper.getEmailFromJwtToken(token);
-            return userRepository.findByEmail(email);
+            String id = jwtHelper.getIdFromJwtToken(token);
+            return userRepository.findById(Long.valueOf(id)).get();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "토큰이 없습니다");
         }

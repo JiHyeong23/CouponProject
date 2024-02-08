@@ -54,12 +54,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
-        String username = ((User)authResult.getPrincipal()).getUsername();
-        sol.UserService.user.User user = userService.findByEmail(username);
+        String username = ((User)authResult.getPrincipal()).getUsername(); //email
+        sol.UserService.user.User user = userService.findByEmail(username); //user
         user.setLastLogin(LocalDateTime.now());
         userRepository.save(user);
 
-        ResponseToken token = jwtHelper.createToken(username);
+        ResponseToken token = jwtHelper.createToken(user.getId().toString());
 
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
@@ -71,7 +71,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         //super.unsuccessfulAuthentication(request, response, failed);
-        ApiException apiException = new ApiException(Result.FAIL, failed.getMessage().substring(15), HttpStatus.NOT_FOUND);
+        ApiException apiException = new ApiException(Result.FAIL, failed.getMessage(), HttpStatus.NOT_FOUND);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         response.setHeader("Access-Control-Allow-Origin", "*"); //크로스오리진

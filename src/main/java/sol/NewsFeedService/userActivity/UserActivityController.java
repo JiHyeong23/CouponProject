@@ -25,9 +25,9 @@ public class UserActivityController {
 
     @GetMapping
     public ResponseEntity getNewsFeed(HttpServletRequest request) {
-        Long user = userClient.getUser(TokenDto.builder().token(utilMethods.getToken(request)).build());
-        System.out.println("@@@@@@" + user);
-        List<Long> followings = activityClient.getFollowings(user);
+//        Long user = userClient.getUser(TokenDto.builder().token(utilMethods.getToken(request)).build());
+        Long userId = Long.valueOf(request.getHeader("Authorization-Id"));
+        List<Long> followings = activityClient.getFollowings(userId);
         ResponseDto news = userActivityService.getNews(followings);
         return ResponseEntity.status(HttpStatus.OK).body(news);
     }

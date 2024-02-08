@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "activityType-service", url = "http://localhost:8000/follows")
+@FeignClient(name = "activityType-service", url = "http://localhost:8081/follows")
 public interface ActivityClient {
 
     @PostMapping("/client")

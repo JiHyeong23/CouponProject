@@ -19,10 +19,10 @@ import java.util.List;
 public class OrderProduct {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany
-    private List<Order> orderId = new ArrayList<>();
-    @OneToMany
-    private List<Product> productId = new ArrayList<>();
+    @ManyToOne
+    private Order orderId;
+    @ManyToOne
+    private Product productId;
     private Long price;
     private Long count;
 }

@@ -31,7 +31,8 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            User user = userRepository.findById(Long.valueOf(username)).get();
+            //User user = userRepository.findById(Long.valueOf(username)).get();
+            User user = userRepository.findByEmail(username);
             if (user.getId() == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다");
             }

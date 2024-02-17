@@ -20,15 +20,6 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             String token = getHeader.substring(7);
             String index = jwtHelper.getEmailFromJwtToken(token);
 
-//            Consumer<HttpHeaders> headers = new Consumer<HttpHeaders>() {
-//                @Override
-//                public void accept(HttpHeaders httpHeaders) {
-//                    httpHeaders.add("Authorization", getHeader);
-//                    httpHeaders.add("Authorization-Id", index);
-//                }
-//            };
-
-            //exchange.getRequest().mutate().headers(headers).build();
             exchange.getRequest().mutate().header("Authorization-Id", index).build();
 
             return  chain.filter(exchange);
@@ -36,6 +27,5 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     }
 
     public static class Config{
-
     }
 }

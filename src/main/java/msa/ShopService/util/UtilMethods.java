@@ -1,11 +1,18 @@
 package msa.ShopService.util;
 
 import lombok.AllArgsConstructor;
+import msa.ShopService.order.Order;
+import msa.ShopService.order.OrderRepository;
+import msa.ShopService.payment.Payment;
+import msa.ShopService.payment.PaymentRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 public class UtilMethods {
+
+    private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
 
     public ResponseDto makeSuccessResponseDto(String message) {
         return ResponseDto.builder()
@@ -24,4 +31,9 @@ public class UtilMethods {
                 .result(State.FAILED).message(message).response(response)
                 .build();
     }
+
+    public Order findOrderById(Long orderId) {
+        return  orderRepository.findById(orderId).get();
+    }
+    public Payment findPaymentById(Long paymentId) {return paymentRepository.findById(paymentId).get(); }
 }

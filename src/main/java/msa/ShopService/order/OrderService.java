@@ -32,6 +32,7 @@ public class OrderService {
 
         for (OrderCreationDto.OrderDetails orderDetail  : orderCreationDto.getOrderDetails()) {
             Product product = productRepository.findById(orderDetail.getProductId()).get();
+            System.out.println(product.getPrice() + product.getId());
             OrderProduct orderProduct = OrderProduct.builder()
                     .orderId(order)
                     .productId(product)
@@ -39,9 +40,11 @@ public class OrderService {
             orderProductRepository.save(orderProduct);
             totalCount += orderDetail.getCounts();
             totalPrice += (product.getPrice() * orderDetail.getCounts());
+            order.setProductId(product.getId());
         }
         order.setTotalCount(totalCount);
         order.setTotalPrice(totalPrice);
+
         orderRepository.save(order);
 
         ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully processed", order.getState());

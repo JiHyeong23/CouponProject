@@ -1,9 +1,7 @@
 package msa.ShopService.order;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import msa.ShopService.payment.Payment;
 import msa.ShopService.util.State;
 
 import javax.persistence.*;
@@ -19,13 +17,17 @@ public class Order {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
+    @Setter
     private Long productId;
     private Long totalCount;
     private Long totalPrice;
     @Builder.Default
     private LocalDateTime orderedAt = LocalDateTime.now();
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private State state = State.PENDING;
+    @OneToOne(mappedBy = "order")
+    private Payment payment;
 
     public void setTotalCount(Long totalCount) {
         this.totalCount = totalCount;

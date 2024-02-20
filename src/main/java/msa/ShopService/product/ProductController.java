@@ -18,14 +18,14 @@ public class ProductController {
         productService.saveProduct(productCreationDto);
     }
 
-    @GetMapping
+    @PostMapping("/get")
     public ResponseEntity getProduct(@RequestBody GetProductDto getProductDto) {
         ResponseDto responseDto = productService.getProductDetail(getProductDto);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
-    @GetMapping("/stock")
-    public ResponseEntity getProductStock(@RequestBody GetProductDto getProductDto) {
+    @PostMapping("/stock")
+    public ResponseEntity getAvailableProductStock(@RequestBody GetProductDto getProductDto) {
         ResponseDto responseDto = productService.getProductStock(getProductDto);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }

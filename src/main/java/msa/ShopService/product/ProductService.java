@@ -1,6 +1,8 @@
 package msa.ShopService.product;
 
 import lombok.AllArgsConstructor;
+import msa.ShopService.order.Order;
+import msa.ShopService.payment.PaymentRepository;
 import msa.ShopService.product.dto.GetProductDto;
 import msa.ShopService.product.dto.ProductCreationDto;
 import msa.ShopService.product.dto.ProductDetailDto;
@@ -15,6 +17,7 @@ public class ProductService {
     private ProductRepository productRepository;
     private ProductMapper productMapper;
     private UtilMethods utilMethods;
+    private final PaymentRepository paymentRepository;
 
     public void saveProduct(ProductCreationDto productCreationDto) {
         Product product = productMapper.dtoToEntity(productCreationDto);
@@ -30,7 +33,21 @@ public class ProductService {
 
     public ResponseDto getProductStock(GetProductDto getProductDto) {
         Product product = productRepository.findById(getProductDto.getProductId()).get();
-        ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully loaded", product.getStock());
+        Long pendingCounts = paymentRepository.getPendingCounts(product.getId());
+        Long crrStock;
+        try {
+            crrStock = product.getStock() - pendingCounts;
+        } catch (NullPointerException e) {
+            crrStock = product.getStock();
+        }
+
+        ResponseDto responseDto;
+        if (crrStock <= 0) {
+            responseDto = utilMethods.makeFailResponseDto("it's out of stock", crrStock);
+        } else {
+            responseDto = utilMethods.makeSuccessResponseDto("Successfully loaded", crrStock);
+        }
+        //ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully loaded", order.getState());
         return responseDto;
     }
 }

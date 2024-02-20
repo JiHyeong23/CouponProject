@@ -22,4 +22,8 @@ public class Product {
     private String description;
     private LocalDateTime openDate;
     private Long stock;
+
+    public void updateStock(Long stock) {
+        this.stock -= stock;
+    }
 }

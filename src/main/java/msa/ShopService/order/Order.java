@@ -25,6 +25,7 @@ public class Order {
     private LocalDateTime orderedAt = LocalDateTime.now();
     @Enumerated(EnumType.STRING)
     @Builder.Default
+    @Setter
     private State state = State.PENDING;
     @OneToOne(mappedBy = "order")
     private Payment payment;

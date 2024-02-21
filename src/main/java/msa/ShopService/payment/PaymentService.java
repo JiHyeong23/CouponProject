@@ -2,6 +2,7 @@ package msa.ShopService.payment;
 
 import lombok.AllArgsConstructor;
 import msa.ShopService.order.Order;
+import msa.ShopService.order.OrderRepository;
 import msa.ShopService.product.Product;
 import msa.ShopService.product.ProductRepository;
 import msa.ShopService.util.ResponseDto;
@@ -16,6 +17,7 @@ public class PaymentService {
     private UtilMethods utilMethods;
     private final PaymentRedisRepository paymentRedisRepository;
     private ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
     public ResponseDto enterPayment(Long userId, Order order) {
         Payment payment = Payment.builder()
@@ -38,6 +40,10 @@ public class PaymentService {
         Product product = productRepository.findById(payment.getOrder().getProductId()).get();
         product.updateStock(payment.getCounts());
         productRepository.save(product);
+
+        Order order = payment.getOrder();
+        order.setState(State.SUCCESS);
+        orderRepository.save(order);
 
         ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully paid");
         return responseDto;

@@ -1,7 +1,9 @@
 package msa.ShopService.order;
 
 import lombok.AllArgsConstructor;
+import msa.ShopService.order.dto.GetOrderIdDto;
 import msa.ShopService.order.dto.OrderCreationDto;
+import msa.ShopService.order.dto.OrderResponseDto;
 import msa.ShopService.orderProduct.OrderProduct;
 import msa.ShopService.orderProduct.OrderProductRepository;
 import msa.ShopService.product.Product;
@@ -11,6 +13,7 @@ import msa.ShopService.util.UtilMethods;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -48,6 +51,20 @@ public class OrderService {
         orderRepository.save(order);
 
         ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully processed", order.getState());
+        return responseDto;
+    }
+
+    public ResponseDto getOrder(GetOrderIdDto getOrderIdDto, Long userId) {
+        Order order = orderRepository.findById(getOrderIdDto.getOrderId()).get();
+        OrderResponseDto orderResponse = OrderResponseDto.builder()
+                .userId(order.getUserId())
+                .productId(order.getProductId())
+                .totalCount(order.getTotalCount())
+                .totalPrice(order.getTotalPrice())
+                .state(order.getState())
+                .orderedAt(order.getOrderedAt())
+                .build();
+        ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully loaded", orderResponse);
         return responseDto;
     }
 }

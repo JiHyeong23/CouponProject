@@ -33,7 +33,7 @@ public class UtilMethods {
     }
 
     public Order findOrderById(Long orderId) {
-        return  orderRepository.findById(orderId).get();
+        return orderRepository.findById(orderId).get();
     }
     public Payment findPaymentById(Long paymentId) {return paymentRepository.findById(paymentId).get(); }
 }

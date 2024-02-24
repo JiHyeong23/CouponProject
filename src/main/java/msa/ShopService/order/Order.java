@@ -6,6 +6,8 @@ import msa.ShopService.util.State;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,8 +29,8 @@ public class Order {
     @Builder.Default
     @Setter
     private State state = State.PENDING;
-    @OneToOne(mappedBy = "order")
-    private Payment payment;
+    @OneToMany(mappedBy = "order")
+    private List<Payment> payment = new ArrayList<>();
 
     public void setTotalCount(Long totalCount) {
         this.totalCount = totalCount;

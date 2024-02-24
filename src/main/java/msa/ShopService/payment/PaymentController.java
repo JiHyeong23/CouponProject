@@ -24,7 +24,8 @@ public class PaymentController {
         Long userId = Long.valueOf(request.getHeader("Authorization-Id"));
         Order order = utilMethods.findOrderById(enterPaymentDto.getOrderId());
 
-        ResponseDto responseDto = paymentService.enterPayment(userId, order);
+        //ResponseDto responseDto = paymentService.enterPayment(userId, order);
+        ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully entered");
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
@@ -42,7 +43,16 @@ public class PaymentController {
         Long userId = Long.valueOf(request.getHeader("Authorization-Id"));
         Payment payment = utilMethods.findPaymentById(getPaymentIdDto.getPaymentId());
 
-        ResponseDto responseDto = paymentService.failPayment(payment, userId);
+        ResponseDto responseDto = paymentService.failPayment(userId, payment);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @PostMapping
+    public ResponseEntity payment(@RequestBody EnterPaymentDto enterPaymentDto, HttpServletRequest request) {
+        Long userId = Long.valueOf(request.getHeader("Authorization-Id"));
+        Order order = utilMethods.findOrderById(enterPaymentDto.getOrderId());
+
+        ResponseDto responseDto = paymentService.paymentTest(userId, order);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 }

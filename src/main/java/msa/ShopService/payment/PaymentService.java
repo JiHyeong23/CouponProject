@@ -19,7 +19,16 @@ public class PaymentService {
     private ProductRepository productRepository;
     private final OrderRepository orderRepository;
 
-    public ResponseDto enterPayment(Long userId, Order order) {
+    public ResponseDto paymentTest(Long userID, Order order) {
+        Payment payment = enterPayment(userID, order);
+        if (Math.random() < 0.2) {
+            return failPayment(userID, payment);
+        } else {
+            return successPayment(userID, payment);
+        }
+    }
+
+    public Payment enterPayment(Long userId, Order order) {
         Payment payment = Payment.builder()
                 .userId(userId)
                 .order(order)
@@ -30,8 +39,8 @@ public class PaymentService {
         PaymentLog log = new PaymentLog(userId, order.getId());
         paymentRedisRepository.save(log);
 
-        ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully entered", payment.getState());
-        return responseDto;
+        //ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully entered", payment.getState());
+        return payment;
     }
 
     public ResponseDto successPayment(Long userId, Payment payment) {
@@ -49,7 +58,7 @@ public class PaymentService {
         return responseDto;
     }
 
-    public ResponseDto failPayment(Payment payment, Long userId) {
+    public ResponseDto failPayment(Long userId, Payment payment) {
         payment.setState(State.FAILED);
         paymentRepository.save(payment);
 

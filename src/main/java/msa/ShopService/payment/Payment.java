@@ -18,8 +18,8 @@ public class Payment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
-    @OneToOne
-    @JoinColumn(name = "orderId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", unique = true)
     private Order order;
     private Long counts;
     private Long price;

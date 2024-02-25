@@ -75,4 +75,9 @@ public class UserController {
         System.out.println("response= " + response.getFollowerId() + response.getFollowingId());
         return response;
     }
+
+    @GetMapping("/makeUser")
+    public void makeUser() {
+        userService.makeUser();
+    }
 }

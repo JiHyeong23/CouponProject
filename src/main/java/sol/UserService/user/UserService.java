@@ -18,6 +18,7 @@ import sol.UserService.util.UtilMethods;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -84,6 +85,20 @@ public class UserService implements UserDetailsService {
             return responseDto = utilMethods.makeFailResponseDto("비밀번호가 틀립니다", user.getName());
         }
     }
+
+    public void makeUser() {
+        for (int i = 0; i < 10; i++) {
+            String username = UUID.randomUUID().toString();
+            User user = User.builder()
+                    .name(username)
+                    .email(username+"@te.st")
+                    .password(encoder.encode("1234test"))
+                    .build();
+            userRepository.save(user);
+            System.out.println("Sending request with userId: " + username);
+        }
+    }
+
 
     public User findByEmail(String username) {
         return userRepository.findByEmail(username);

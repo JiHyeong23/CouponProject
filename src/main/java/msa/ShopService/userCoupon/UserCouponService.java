@@ -18,18 +18,22 @@ public class UserCouponService {
     @Transactional
     public ResponseDto issueCoupon(String code) {
         Coupon coupon = couponRepository.findByCode(code);
-        System.out.println("@@@@@@@@@@@@@@@@@@ " + coupon.getQuantity() + " @@@@@@@@@@@@@@@@@@@@");
-        UserCoupon userCoupon = UserCoupon.builder()
-                .userId(1L)
-                .couponCode(coupon.getCode())
-                .build();
-        userCouponRepository.save(userCoupon);
+        int quantity = coupon.getQuantity();
+        ResponseDto responseDto;
+        if (quantity > 0) {
+            coupon.setQuantity(quantity - 1);
+            //coupon.decreaseQuantity();
+            couponRepository.save(coupon);
 
-        coupon.decreaseQuantity();
-        couponRepository.save(coupon);
-
-        ResponseDto responseDto = utilMethods.makeSuccessResponseDto("Successfully saved", userCoupon.getCouponCode());
-        return responseDto;
+            UserCoupon userCoupon = UserCoupon.builder()
+                    .userId(1L)
+                    .couponCode(coupon.getCode())
+                    .build();
+            userCouponRepository.save(userCoupon);
+            return responseDto = utilMethods.makeSuccessResponseDto("Successfully saved", userCoupon.getCouponCode());
+        } else {
+            return responseDto = utilMethods.makeFailResponseDto("Coupon exhausted", quantity);
+        }
     }
 //    public ResponseDto issueCoupon(String code, Long userId) {
 //

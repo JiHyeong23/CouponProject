@@ -15,7 +15,6 @@ public class UserCouponController {
     @GetMapping("/{code}")
     public ResponseEntity getCoupon(@PathVariable String code) {
         ResponseDto responseDto = userCouponService.issueCoupon(code);
-        System.out.println(responseDto.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 

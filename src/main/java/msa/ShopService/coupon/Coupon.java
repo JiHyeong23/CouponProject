@@ -20,6 +20,7 @@ public class Coupon {
     private String code;
     private LocalDateTime expirationDate;
     private Long discountRate;
+    @Setter
     private int quantity;
 
     public void decreaseQuantity() {

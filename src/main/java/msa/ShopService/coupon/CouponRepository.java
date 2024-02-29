@@ -8,6 +8,6 @@ import javax.persistence.LockModeType;
 
 @Repository
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
-    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    //@Lock(value = LockModeType.PESSIMISTIC_WRITE)
     Coupon findByCode(String code);
 }

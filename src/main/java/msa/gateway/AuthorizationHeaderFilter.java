@@ -22,7 +22,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
             exchange.getRequest().mutate().header("Authorization-Id", index).build();
 
-            return  chain.filter(exchange);
+            return chain.filter(exchange);
         });
     }
 

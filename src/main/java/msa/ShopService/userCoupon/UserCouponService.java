@@ -2,6 +2,7 @@ package msa.ShopService.userCoupon;
 
 import lombok.AllArgsConstructor;
 import msa.ShopService.coupon.Coupon;
+import msa.ShopService.coupon.CouponQuantityRepository;
 import msa.ShopService.coupon.CouponRepository;
 import msa.ShopService.util.ResponseDto;
 import msa.ShopService.util.UtilMethods;
@@ -13,17 +14,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserCouponService {
     private UserCouponRepository userCouponRepository;
     private CouponRepository couponRepository;
+    private CouponQuantityRepository couponQuantityRepository;
     private UtilMethods utilMethods;
 
-    @Transactional
+    //@Transactional
     public ResponseDto issueCoupon(String code) {
+        ResponseDto responseDto;
+
+        Long count = couponQuantityRepository.decrement(code);
         Coupon coupon = couponRepository.findByCode(code);
         int quantity = coupon.getQuantity();
-        ResponseDto responseDto;
-        if (quantity > 0) {
-            coupon.setQuantity(quantity - 1);
+
+        if (0 < count && count <= quantity) {
+        //if (quantity > 0) {
+            //coupon.setQuantity(quantity - 1);
             //coupon.decreaseQuantity();
-            couponRepository.save(coupon);
+            //couponRepository.save(coupon);
 
             UserCoupon userCoupon = UserCoupon.builder()
                     .userId(1L)
